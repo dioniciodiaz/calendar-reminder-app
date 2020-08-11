@@ -1,23 +1,26 @@
 import React from "react";
 import moment from "moment";
-import { CalendarWrapper, DayCell } from "./styles";
+import { CalendarWrapper, DayName } from "./styles";
+import Month from "./Month";
 
-const WeekDaysRow = () => {
+const WeekDays = () => {
 	const daysName = moment.weekdays();
 	return (
 		<thead>
-			<tr>{daysName.map(dayName =>
-        <DayCell key={dayName}>
+			<tr>{daysName.map((dayName) =>
+        <DayName key={dayName}>
           {dayName}
-        </DayCell>)}
+        </DayName>)}
       </tr>
 		</thead>
 	);
 };
-const Calendar = ({}) => {
+
+const Calendar = ({month, year}) => {
 	return (
 		<CalendarWrapper>
-			<WeekDaysRow />
+			<WeekDays />
+      <Month currentMonth={month} currentYear={year} />
 		</CalendarWrapper>
 	);
 };
