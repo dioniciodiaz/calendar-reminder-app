@@ -1,5 +1,6 @@
 import moment from "moment";
 
+import { getPreviousMonth, getNextMonth} from "./date";
 export const findLastDaysFromMonth = (monthNumber, year, daysToFind) => {
 	const firstMonthDayDate = `${year}/${monthNumber}/01`;
 	const lastMonthDay = moment(firstMonthDayDate, "YYYY-MM-DD")
@@ -12,25 +13,6 @@ export const findLastDaysFromMonth = (monthNumber, year, daysToFind) => {
 	}
 
 	return lastMonthDays.reverse();
-};
-
-export const extractMonthDate = dateToExtract => ({
-	month: dateToExtract.month() + 1,
-	year: dateToExtract.year()
-});
-
-export const getPreviousMonth = (month, year) => {
-	const prevMonthDateObj = moment(`${year}/${month}/01`, "YYYY-MM-DD").subtract(1, "month");
-	const prevMonthDate = extractMonthDate(prevMonthDateObj);
-
-	return prevMonthDate;
-};
-
-export const getNextMonthDate = (month, year) => {
-	const nextMonthDateObj = moment(`${year}/${month}/01`, "YYYY-MM-DD").add(1, "month");
-	const nextMonthDate = extractMonthDate(nextMonthDateObj);
-
-	return nextMonthDate;
 };
 
 export const getCalendarDays = (month, year, numberOfWeeksToInclude = 5) => {
