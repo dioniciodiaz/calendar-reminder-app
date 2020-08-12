@@ -2,11 +2,8 @@ import React from "react";
 import { WeekWrapper } from "components/Calendar/styles";
 import Day from "components/Calendar/Day";
 
-const Week = ({weekDays}) => {
+const Week = ({weekDays, showModalReminder}) => {
 
-const displayReminderModal = () => {
-
-}
 const removeReminders = () => {
 
 }
@@ -18,12 +15,12 @@ const removeReminders = () => {
           <Day
             day={day}
             key={`week-${index}-day-${day}}`}
-            displayReminderModal={displayReminderModal}
             removeReminders={removeReminders}
+            showModalReminder={showModalReminder}
           />)
       }
 		</WeekWrapper>
 	);
 };
 
-export default Week;
+export default React.memo(Week);
