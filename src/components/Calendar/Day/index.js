@@ -11,8 +11,7 @@ import {
   Reminder
 } from "components/Calendar/styles";
 
-const Day = ({day, displayReminderModal, removeReminders}) => {
-
+const Day = ({day, showModalReminder, removeReminders }) => {
 	return (
     <td>
       <DayWrapper>
@@ -23,12 +22,12 @@ const Day = ({day, displayReminderModal, removeReminders}) => {
           {day.isFromCurrentMonth && (
             <ActionButtons>
               <AddButton
-                onClick={() => removeReminders(day)}
+                onClick={() => showModalReminder(day)}
                 className='action-button'>
                 &#43;
               </AddButton>
               <DeleteButton
-                onClick={() => displayReminderModal(day)}
+                onClick={() => showModalReminder(day)}
                 className='action-button'>
                 -
               </DeleteButton>
@@ -44,4 +43,4 @@ const Day = ({day, displayReminderModal, removeReminders}) => {
 	);
 };
 
-export default Day;
+export default React.memo(Day);
