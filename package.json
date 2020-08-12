@@ -11,7 +11,10 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "^6.3.1",
+    "react-redux": "^7.2.1",
     "react-scripts": "3.4.1",
+    "redux-persist": "^6.0.0",
+    "redux-thunks": "^1.0.0",
     "styled-components": "^5.1.1",
     "yup": "^0.29.3"
   },
