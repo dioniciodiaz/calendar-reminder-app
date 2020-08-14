@@ -7,12 +7,12 @@ const useModal = (defaultState = false) => {
 
   const closeHandler = () => setDiplayModal(false);
   const openHandler = () => setDiplayModal(true);
-  const Modal = ({ children, backgroundColor = "#5797ef" }) => {
+  const Modal = ({children}) => {
     return (
       <>
-        <ModalWrapper style={{backgroundColor , display: diplayModal ? 'block' :'none'}}>
+        <ModalWrapper  style={{display: diplayModal ? 'block' :'none'}}>
           <ModalHeader >
-            <button title="Close" onClick={closeHandler}>
+            <button  style= {{ marginBottom: 10 }} title="Close" onClick={closeHandler}>
               x
             </button>
           </ModalHeader>
