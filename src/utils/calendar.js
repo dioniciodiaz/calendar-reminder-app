@@ -2,7 +2,7 @@ import moment from "moment";
 
 import { getDatesArray } from 'utils/date';
 
-export const getCalendarDays = (month, year, numberOfWeeksToInclude = 6) => {
+export const getCalendarDays = (month, year, numberOfWeeksToInclude = 5) => {
 	const numberOfDaysInWeek = 7;
 	const firstMonthDayDateObj = moment(`${year}/${month}/01`, "YYYY-M-DD");
 	const firstDayOfMonth = firstMonthDayDateObj.day();
