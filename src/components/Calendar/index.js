@@ -8,9 +8,10 @@ import Form from "components/Form";
 import { CalendarWrapper, DayName } from "./styles";
 import Month from "./Month";
 import { selectMonth, selectYear} from "./Selectors";
-import { createReminder, editReminder ,removeReminder} from "components/Calendar/CalendarSlice";
+import { createReminder, editReminder ,removeReminder, nextMonth, previusMonth} from "components/Calendar/CalendarSlice";
 import { v4 as uuid } from "uuid";
 import EmptyReminder from 'constants/emptyReminder';
+
 
 const WeekDays = () => {
 	const daysName = moment.weekdays();
@@ -56,9 +57,19 @@ const Calendar = ({}) => {
       closeModal();
       setselectedReminder(EmptyReminder);
     }
+
+
 	return (
     <>
+    <div style={{display: 'flex', justifyContent: 'space-around',}}>
+    <button
+      onClick={() => dispatch(nextMonth())}
+    > {"<<"} previusMonth</button>
     <h1 className="title">{Months[month-1]}</h1>
+    <button
+     onClick={() => dispatch(nextMonth())}
+    > nextMonth {">>"} </button>
+    </div>
 		<CalendarWrapper>
 			<WeekDays />
       <Month currentMonth={month} currentYear={year} showModalReminder={showModalReminder} />

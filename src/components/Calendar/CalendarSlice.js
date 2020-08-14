@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import moment from "moment";
 
 import { addReminder, updateReminder, deleteAllReminders, deleteReminder } from "utils/reminder";
+import { getPreviousMonthAndYear, getNextMonth } from "utils/date";
+
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
@@ -48,6 +50,28 @@ export const clearReminders = createAsyncThunk(
       }
   }
 );
+export const nextMonth = createAsyncThunk(
+  "calendar/nextMonth",
+  async () => {
+      try {
+          return {  };
+      } catch (err) {
+          Promise.reject(err);
+      }
+  }
+);
+
+export const previusMonth = createAsyncThunk(
+  "calendar/previusMonth",
+  async () => {
+      try {
+          return {};
+      } catch (err) {
+          Promise.reject(err);
+      }
+  }
+);
+
 const  initialState = {
   reminders: {},
   year: moment().year(),
@@ -83,6 +107,23 @@ export const calendar = createSlice({
           const cleared = deleteAllReminders(action.payload.data, state.reminders )
           state.reminders = cleared;
         },
+        [nextMonth.rejected]: state => {},
+        [nextMonth.pending]: state => {},
+        [nextMonth.fulfilled]: (state, action) => {
+          const date = getNextMonth( state.month,state.year );
+          state.year = date.year;
+          state.month = date.month;
+        },
+        [previusMonth.rejected]: state => {},
+        [previusMonth.pending]: state => {},
+        [previusMonth.fulfilled]: (state, action) => {
+          const date = getPreviousMonthAndYear( state.month,state.year );
+          state.year = date.year;
+          state.month = date.month;
+        },
+
+
+
     }
 });
 

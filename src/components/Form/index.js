@@ -1,15 +1,21 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 import ReactSelect from "react-select";
 import cityOptions from 'constants/cities';
+
+import { extractWeatherData, getWheatherByCityName } from 'utils/reminder';
+
+const citySchema =  yup.object().shape({
+  label: yup.string(),
+  value: yup.string()});
 
 const ReminderSchema = yup.object().shape({
   description: yup.string().required().min(3).max(30),
   username: yup.string().required(),
   time: yup.string().required().matches(`[0-9]{2}:[0-9]{2}`),
   date: yup.date().required(),
-  cityName: yup.string().required(),
+  city: citySchema,
   color: yup.string().required(),
 });
 
@@ -30,8 +36,23 @@ const ReminderForm = ({ submitHandler, initialData = {}, deleteHandler = ()=> {}
 	const onSubmitHandler = data => {
     submitHandler(data);
 	};
+const cityWatcher = watch('city')
+  useEffect(() => {
+    if(!!cityWatcher.label ){
+      getWeatherInfo(cityWatcher.label);
+    }
+  }, [cityWatcher.label]);
+
+  const getWeatherInfo = async (name)=>{
+    const response = await getWheatherByCityName(name);
+    const wheather = extractWeatherData(response)
+    setWeatherInfo(wheather)
+  }
+  const [weatherInfo, setWeatherInfo] = useState({type: "Not available"});
 
 	return (
+  <>
+    <div> Weather in {cityWatcher.label}: {weatherInfo.type} </div>
 		<form  onSubmit={handleSubmit(onSubmitHandler)}>
       <fieldset>
       <label>Description : </label>
@@ -103,6 +124,7 @@ const ReminderForm = ({ submitHandler, initialData = {}, deleteHandler = ()=> {}
       : null}
 
 		</form>
+    </>
 	);
 };
 

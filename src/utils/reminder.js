@@ -109,3 +109,11 @@ export const extractWeatherData = weatherResponse => {
 	return extractedWeatherData;
 };
 
+export const getWheatherByCityName = async(cityName) => {
+  const url =`http://api.openweathermap.org/data/2.5/weather?q=${cityName}&APPID=77aade2d2d68032076448a1e5b8367a1`;
+  try {
+    return fetch(url).then(res => res.json());
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
