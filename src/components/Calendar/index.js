@@ -22,6 +22,7 @@ const WeekDays = () => {
 		</thead>
 	);
 };
+const Months = moment.months();
 
 const Calendar = ({}) => {
   const month = useSelector(selectMonth);
@@ -34,6 +35,7 @@ const Calendar = ({}) => {
     },[]);
 	return (
     <>
+    <h1 className="title">{Months[month-1]}</h1>
 		<CalendarWrapper>
 			<WeekDays />
       <Month currentMonth={month} currentYear={year} showModalReminder={showModalReminder} />

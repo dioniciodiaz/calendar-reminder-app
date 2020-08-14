@@ -1,40 +1,36 @@
 import moment from "moment";
 
-import { getPreviousMonth, getNextMonth} from "./date";
-export const findLastDaysFromMonth = (monthNumber, year, daysToFind) => {
-	const firstMonthDayDate = `${year}/${monthNumber}/01`;
-	const lastMonthDay = moment(firstMonthDayDate, "YYYY-MM-DD")
-		.endOf("month")
-		.date();
-	const lastMonthDays = [];
-
-	for (let index = 0; index < daysToFind; index++) {
-		lastMonthDays.push(lastMonthDay - index);
-	}
-
-	return lastMonthDays.reverse();
-};
-
-export const getCalendarDays = (month, year, numberOfWeeksToInclude = 5) => {
+export const getCalendarDays = (month, year, numberOfWeeksToInclude = 6) => {
 	const numberOfDaysInWeek = 7;
-	const firstMonthDayDateObj = moment(`${year}/${month}/01`, "YYYY-MM-DD");
+	const firstMonthDayDateObj = moment(`${year}/${month}/01`, "YYYY-M-DD");
 	const firstDayOfMonth = firstMonthDayDateObj.day();
-	const lastDayDateOfMonth = firstMonthDayDateObj.endOf("month").date();
-	const { month: previousMonth, year: previousMonthYear } = getPreviousMonth(month, year);
+  const lastDayDateOfMonth = firstMonthDayDateObj.endOf("month").date();
+  debugger
 	// fill up the spaces that are before the first day of the month
-	const lastDaysDateOfPrevMonth = findLastDaysFromMonth(previousMonth, previousMonthYear, firstDayOfMonth);
+	const lastDaysDateOfPrevMonth = findLastDaysFromPreviusMonth(month, year, firstDayOfMonth);
   const monthDaysStructure = [];
 
-	for (let i = 0, currentDateToAdd = 1; i < numberOfWeeksToInclude; i++) {
-		const isFirstWeekRow = i === 0;
+  let currentMonth = month;
+  let currentDateToAdd = 1
+    if(lastDaysDateOfPrevMonth.length){
+      currentDateToAdd = 2
+    }
+
+	for (let weekRowIndex = 0; weekRowIndex < numberOfWeeksToInclude; weekRowIndex++) {
+		const isFirstWeekRow = weekRowIndex === 0;
 		const weekRow = isFirstWeekRow ? [...lastDaysDateOfPrevMonth] : [];
 
 		for (let j = weekRow.length; j < numberOfDaysInWeek; j++) {
 			const islastDayOfMonth = currentDateToAdd === lastDayDateOfMonth;
-
-			weekRow.push(currentDateToAdd);
-			//fill up the spaces that are after the last day of the month
-			currentDateToAdd = islastDayOfMonth ? 1 : currentDateToAdd + 1;
+      const day = moment(`${year}/${currentMonth}/${currentDateToAdd}`, "YYYY-M-D").format("YYYY-MM-DD");
+      weekRow.push(day);
+      //fill up the spaces that are after the last day of the month
+      if (islastDayOfMonth) {
+        currentDateToAdd = 1
+        currentMonth = currentMonth + 1;
+      } else{
+        currentDateToAdd = currentDateToAdd + 1;
+      }
 		}
 
 		monthDaysStructure.push(weekRow);
@@ -60,4 +56,28 @@ export const formatWeekDaysRows = (monthDayStructure) => {
 	});
 
 	return formattedMonthDaysRows;
+};
+
+
+export const getDatesArray = (startDate, stopDate)=> {
+  var dateArray = [];
+  var currentDate = moment(startDate);
+  var stopDate = moment(stopDate);
+  while (currentDate <= stopDate) {
+      dateArray.push( moment(currentDate).format('YYYY-MM-DD') )
+      currentDate = moment(currentDate).add(1, 'days');
+  }
+  return dateArray;
+}
+
+export const findLastDaysFromPreviusMonth = (monthNumber, year, daysToFind) => {
+
+	const firstMonthDayDate = `${year}/${monthNumber}/01`;
+  let lastMonthDays = [];
+    if (daysToFind > 0) {
+     const startDate =  moment(firstMonthDayDate).subtract(daysToFind, 'days').format("YYYY-MM-DD");
+      lastMonthDays = getDatesArray(startDate,firstMonthDayDate);
+    }
+
+	return lastMonthDays;
 };

@@ -5,7 +5,7 @@ export const extractMonthDate = (dateToExtract) => ({
 	year: dateToExtract.year()
 });
 
-export const getPreviousMonth = (month, year) => {
+export const getPreviousMonthAndYear = (month, year) => {
 	const prevMonthDateObj = moment(`${year}/${month}/01`, "YYYY-MM-DD").subtract(1, "month");
 	const prevMonthDate = extractMonthDate(prevMonthDateObj);
 
@@ -20,4 +20,8 @@ export const getNextMonth = (month, year) => {
 };
 export const getDate = (day,month, year) => {
 	return moment(`${year}/${month}/${day}`, "YYYY-M-D").format("DD-MM-YYYY");
+};
+
+export const getCardinalNumberOfDate = (date) => {
+	return moment(date, "YYYY-MM-DD").format("D");
 };
