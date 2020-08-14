@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import moment from "moment";
 
+import { addReminder, updateReminder, deleteAllReminders, deleteReminder } from "utils/reminder";
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
@@ -16,8 +17,39 @@ export const createReminder = createAsyncThunk(
     }
 );
 
+export const editReminder = createAsyncThunk(
+  "calendar/editReminder",
+  async (data) => {
+      try {
+          return { data };
+      } catch (err) {
+          Promise.reject(err);
+      }
+  }
+);
+export const removeReminder = createAsyncThunk(
+  "calendar/removeReminder",
+  async (data) => {
+      try {
+          return { data };
+      } catch (err) {
+          Promise.reject(err);
+      }
+  }
+);
+
+export const clearReminders = createAsyncThunk(
+  "calendar/clearReminders",
+  async (data) => {
+      try {
+          return { data };
+      } catch (err) {
+          Promise.reject(err);
+      }
+  }
+);
 const  initialState = {
-  reminders: [],
+  reminders: {},
   year: moment().year(),
   month: (moment().month() + 1),
 }
@@ -29,9 +61,28 @@ export const calendar = createSlice({
     extraReducers: {
         [createReminder.pending]: state => {},
         [createReminder.fulfilled]: (state, action) => {
-            state.reminders = [...state.reminders, action.payload.data];
+          const newReminders = addReminder(action.payload.data, state.reminders )
+          state.reminders = newReminders;
         },
         [createReminder.rejected]: state => {},
+        [editReminder.pending]: state => {},
+        [editReminder.fulfilled]: (state, action) => {
+          const newReminders = updateReminder(action.payload.data.prevReminder,action.payload.data.updatedReminder, state.reminders)
+          state.reminders = newReminders;
+        },
+        [editReminder.rejected]: state => {},
+        [removeReminder.pending]: state => {},
+        [removeReminder.fulfilled]: (state, action) => {
+          const newReminders = deleteReminder(action.payload.data, state.reminders)
+          state.reminders = newReminders;
+        },
+        [removeReminder.rejected]: state => {},
+        [clearReminders.rejected]: state => {},
+        [clearReminders.pending]: state => {},
+        [clearReminders.fulfilled]: (state, action) => {
+          const cleared = deleteAllReminders(action.payload.data, state.reminders )
+          state.reminders = cleared;
+        },
     }
 });
 
