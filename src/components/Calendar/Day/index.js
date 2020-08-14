@@ -1,5 +1,5 @@
 import React from "react";
-import moment from "moment";
+
 import {
   DayWrapper,
   AddButton,
@@ -11,15 +11,18 @@ import {
   Reminder
 } from "components/Calendar/styles";
 
-const Day = ({day, showModalReminder, removeReminders }) => {
+import {getCardinalNumberOfDate } from 'utils/date';
+
+const Day = ({day, showModalReminder }) => {
+const cardinalNumber = getCardinalNumberOfDate(day)
+
 	return (
     <td>
       <DayWrapper>
         <DayHeader>
           <DayNumber>
-          {day.dateNumber}
+          {cardinalNumber}
           </DayNumber>
-          {day.isFromCurrentMonth && (
             <ActionButtons>
               <AddButton
                 onClick={() => showModalReminder(day)}
@@ -32,12 +35,10 @@ const Day = ({day, showModalReminder, removeReminders }) => {
                 -
               </DeleteButton>
             </ActionButtons>
-            )}
         </DayHeader>
-          {day.isFromCurrentMonth && (
+
           <Reminders>
           </Reminders>
-        )}
       </DayWrapper>
     </td>
 	);

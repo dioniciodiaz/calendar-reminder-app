@@ -4,18 +4,13 @@ import Day from "components/Calendar/Day";
 
 const Week = ({weekDays, showModalReminder}) => {
 
-const removeReminders = () => {
-
-}
-
 	return (
 		<WeekWrapper>
       {
-        weekDays.map((day, index) =>
+        weekDays.map((day) =>
           <Day
             day={day}
-            key={`week-${index}-day-${day}}`}
-            removeReminders={removeReminders}
+            key={`day-${day}}`}
             showModalReminder={showModalReminder}
           />)
       }
