@@ -18,22 +18,10 @@ const options = cityOptions.map(v => ({
   value: v
 }));
 
-const EmptyReminderData = {
-	description: "",
-	time: "",
-	date: "",
-	city: { value: "Chicago", label: "Chicago" },
-	backgroundColor: "#ffffff",
-	weather: {
-		type: "",
-		imgSource: ""
-	}
-};
-const defaultSubmitHandler = ()=>{};
 
-const ReminderForm = ({ currentDate, submitHandler = defaultSubmitHandler, initialData = {} }) => {
+const ReminderForm = ({ submitHandler, initialData = {}, deleteHandler = ()=> {} }) => {
 
-  const defaultValues = {...EmptyReminderData, ...initialData};
+  const defaultValues = {...initialData};
   const { register, handleSubmit, errors, watch, control } = useForm({
     defaultValues,
     validationSchema: ReminderSchema
@@ -73,13 +61,13 @@ const ReminderForm = ({ currentDate, submitHandler = defaultSubmitHandler, initi
 				name="date"
 				type="date"
 				placeholder="eg. 2020-03-24"
-				pattern="\d{4}-\d{2}-\d{2}"
 				required
         ref={register}
 			/>
       </fieldset>
       <fieldset>
-        <label>City : </label>
+        <label htmlFor="city">City : </label>
+
             <Controller
               as={ReactSelect}
               options={options}
@@ -99,9 +87,21 @@ const ReminderForm = ({ currentDate, submitHandler = defaultSubmitHandler, initi
         ref={register}
         />
       </fieldset>
-			<button type="submit" >
-				Submit
+			<button
+        style={{marginLeft: 80}}
+        type="submit" >
+				Save
 			</button>
+      {initialData?.id ?
+        <button
+          type="button"
+         onClick={() => deleteHandler(initialData)}
+         style={{marginLeft: 80}}
+         >
+				delete
+			</button>
+      : null}
+
 		</form>
 	);
 };

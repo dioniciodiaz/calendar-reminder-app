@@ -8,7 +8,7 @@ import Form from "components/Form";
 import { CalendarWrapper, DayName } from "./styles";
 import Month from "./Month";
 import { selectMonth, selectYear} from "./Selectors";
-import { createReminder, updateReminder } from "components/Calendar/CalendarSlice";
+import { createReminder, editReminder ,removeReminder} from "components/Calendar/CalendarSlice";
 import { v4 as uuid } from "uuid";
 import EmptyReminder from 'constants/emptyReminder';
 
@@ -31,7 +31,7 @@ const Calendar = ({}) => {
   const month = useSelector(selectMonth);
   const year = useSelector(selectYear);
   const [selectedReminder, setselectedReminder] = useState(EmptyReminder);
-  const [Modal, openModal] = useModal(false);
+  const [Modal, openModal, closeModal] = useModal(false);
 
     const showModalReminder = React.useCallback((reminder) => {
       setselectedReminder({...EmptyReminder,...reminder})
@@ -41,15 +41,21 @@ const Calendar = ({}) => {
     const submitHandler = (data)=> {
       let reminder = {...data, id: uuid()};
       if(selectedReminder.id){
-        reminder.id = selectedReminder.id;
-        dispatch(updateReminder(data));
+        reminder = {...selectedReminder, ...data};
+        dispatch(editReminder({updatedReminder: reminder, prevReminder: selectedReminder}));
       }else{
       let reminder = {...data, id: uuid()}
         dispatch(createReminder(reminder));
       }
+      closeModal();
       setselectedReminder(EmptyReminder);
     }
 
+    const deleteHandler = (data) =>{
+      dispatch(removeReminder(data));
+      closeModal();
+      setselectedReminder(EmptyReminder);
+    }
 	return (
     <>
     <h1 className="title">{Months[month-1]}</h1>
@@ -61,6 +67,7 @@ const Calendar = ({}) => {
           <Form
             submitHandler={submitHandler}
             initialData={selectedReminder}
+            deleteHandler={deleteHandler}
            />
       </Modal>
 </>

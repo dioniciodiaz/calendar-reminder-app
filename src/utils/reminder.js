@@ -54,7 +54,6 @@ export const deleteAllReminders = ( date, reminders) => {
 export const updateReminder = (prevReminder, updatedReminder, reminders) => {
 	const { date: prevReminderDate } = prevReminder;
   const { date: currentReminderDate } = updatedReminder;
-  debugger
 	const isUpdatingDate = prevReminderDate !== currentReminderDate;
 	// The empty array is used to initialize the value in case it is still non-existent
 	const currentDateReminders = reminders[currentReminderDate] || [];
