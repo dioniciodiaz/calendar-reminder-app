@@ -1,12 +1,12 @@
 import React from "react";
 import { ModalWrapper, Backdrop, ModalHeader } from "./styles";
 
-const Modal = ({ children, closeHandler, backgroundColor = "#5797ef" }) => {
+const Modal = ({ children, closeHandler }) => {
 	return (
 		<>
-			<ModalWrapper style={{backgroundColor}}>
+			<ModalWrapper>
 				<ModalHeader >
-					<Button title="Close" onClick={closeHandler}>
+					<Button style= {{ marginBottom: 10 }} title="Close" onClick={closeHandler}>
 						x
 					</Button>
 				</ModalHeader>

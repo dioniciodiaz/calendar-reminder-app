@@ -25,3 +25,18 @@ export const getDate = (day,month, year) => {
 export const getCardinalNumberOfDate = (date) => {
 	return moment(date, "YYYY-MM-DD").format("D");
 };
+
+export const formatDate = (date) => {
+	return moment(date, "YYYY-MM-DD").format();
+};
+
+export const getDatesArray = (startDate, stopDate)=> {
+  var dateArray = [];
+  var currentDate = moment(startDate);
+  var stopDate = moment(stopDate);
+  while (currentDate <= stopDate) {
+      dateArray.push( moment(currentDate).format('YYYY-MM-DD') )
+      currentDate = moment(currentDate).add(1, 'days');
+  }
+  return dateArray;
+}

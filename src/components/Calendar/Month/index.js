@@ -17,4 +17,4 @@ const Month = ({currentMonth, currentYear, showModalReminder }) => {
 	);
 };
 
-export default Month;
+export default React.memo(Month);
