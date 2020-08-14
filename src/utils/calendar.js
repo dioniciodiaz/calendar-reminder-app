@@ -1,11 +1,12 @@
 import moment from "moment";
 
+import { getDatesArray } from 'utils/date';
+
 export const getCalendarDays = (month, year, numberOfWeeksToInclude = 6) => {
 	const numberOfDaysInWeek = 7;
 	const firstMonthDayDateObj = moment(`${year}/${month}/01`, "YYYY-M-DD");
 	const firstDayOfMonth = firstMonthDayDateObj.day();
   const lastDayDateOfMonth = firstMonthDayDateObj.endOf("month").date();
-  debugger
 	// fill up the spaces that are before the first day of the month
 	const lastDaysDateOfPrevMonth = findLastDaysFromPreviusMonth(month, year, firstDayOfMonth);
   const monthDaysStructure = [];
@@ -59,16 +60,7 @@ export const formatWeekDaysRows = (monthDayStructure) => {
 };
 
 
-export const getDatesArray = (startDate, stopDate)=> {
-  var dateArray = [];
-  var currentDate = moment(startDate);
-  var stopDate = moment(stopDate);
-  while (currentDate <= stopDate) {
-      dateArray.push( moment(currentDate).format('YYYY-MM-DD') )
-      currentDate = moment(currentDate).add(1, 'days');
-  }
-  return dateArray;
-}
+
 
 export const findLastDaysFromPreviusMonth = (monthNumber, year, daysToFind) => {
 
